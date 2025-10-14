@@ -1,6 +1,7 @@
 const { fakerDE: faker } = require('@faker-js/faker');
-const categoriesService = require('./categoriesService')
-const { products, brands } = require('../mock/mockData');
+const categoriesService = require('./categoriesService');
+const brandsService = require('./brandsService');
+const { products } = require('../mock/mockData');
 
 // PRODUCTS SERVICE CLASS
 class ProductsService {
@@ -39,7 +40,7 @@ class ProductsService {
   }
 
   getByBrand(brandId) {
-    const brand = brands.find(b => b.id == brandId);
+    const brand = brandsService.getAll().find(b => b.id == brandId);
     if (!brand) throw new Error('No Brand Found');
 
     const productsInBrand = this.products.filter(p => p.brandId == brand.id);
@@ -54,7 +55,7 @@ class ProductsService {
       throw new Error('Missing Fields');
 
     const category = categoriesService.getAll().find(c => c.id == data.categoryId);
-    const brand = brands.find(b => b.id == data.brandId);
+    const brand = brandsService.getAll().find(b => b.id == data.brandId);
 
     if (!category) throw new Error('Category Not Found');
     if (!brand) throw new Error('Brand Not Found');
@@ -76,7 +77,7 @@ class ProductsService {
       if (!category) throw new Error('Category Not Found');
     }
     if (data.brandId) {
-      const brand = brands.find(c => c.id == data.brandId);
+      const brand = brandsService.getAll().find(c => c.id == data.brandId);
       if (!brand) throw new Error('Brand Not Found');
     }
 
