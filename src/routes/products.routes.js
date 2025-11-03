@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const service = require('../services/productsService')
+const service = require('../services/products.service')
 /**
  * @swagger
  * /products:
@@ -30,7 +30,6 @@ const service = require('../services/productsService')
  *                  brandId:
  *                     type: number
  */
-
 
 // get all products
 router.get('/', (req, res) => {

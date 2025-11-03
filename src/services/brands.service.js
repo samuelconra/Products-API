@@ -1,5 +1,5 @@
-const { brands } = require('../mock/mockData');
-const productsService = require('../services/productsService');
+const { brands } = require('../data/data.mock');
+const productsService = require('./products.service');
 
 class BrandsService {
   constructor() {

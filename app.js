@@ -1,7 +1,7 @@
 const express = require('express');
-const routerAPI = require('./routes/routes')
-const { errorHandler, logErrors } = require('./middlewares/errorHandler')
-const setupSwagger = require('./swagger')
+const routerAPI = require('./src/routes/routes')
+const { errorHandler, logErrors } = require('./src/middlewares/error.middleware')
+const setupSwagger = require('./src/config/swagger')
 const app = express();
 const port = 3000;
 

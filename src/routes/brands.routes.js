@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const service = require('../services/usersService')
+const service = require('../services/brands.service')
 
-// get all users
+// get all brands
 router.get('/', (req, res) => {
   try {
     const response = service.getAll();
@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
   }
 });
 
-// get user by id
+// get brand by id
 router.get('/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -24,7 +24,7 @@ router.get('/:id', (req, res) => {
   }
 });
 
-// create user
+// create brand
 router.post('/', (req, res) => {
   try {
     const data = req.body;
@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
   }
 })
 
-// update user
+// patch brands
 router.patch('/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -47,7 +47,7 @@ router.patch('/:id', (req, res) => {
   }
 });
 
-// delete user
+// delete brand
 router.delete('/:id', (req, res) => {
   try {
     const { id } = req.params;

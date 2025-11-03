@@ -1,7 +1,7 @@
 const { fakerDE: faker } = require('@faker-js/faker');
-const categoriesService = require('./categoriesService');
-const brandsService = require('./brandsService');
-const { products } = require('../mock/mockData');
+const categoriesService = require('./categories.service');
+const brandsService = require('./brands.service');
+const { products } = require('../data/data.mock');
 
 // PRODUCTS SERVICE CLASS
 class ProductsService {

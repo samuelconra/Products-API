@@ -1,5 +1,5 @@
 const { fakerDE: faker } = require('@faker-js/faker');
-const { users } = require('../mock/mockData');
+const { users } = require('../data/data.mock');
 
 class UsersService {
   constructor() {

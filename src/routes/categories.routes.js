@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const service = require('../services/brandsService')
+const service = require('../services/categories.service')
 
-// get all brands
+// get all categories
 router.get('/', (req, res) => {
   try {
     const response = service.getAll();
@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
   }
 });
 
-// get brand by id
+// get category by id
 router.get('/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -24,7 +24,7 @@ router.get('/:id', (req, res) => {
   }
 });
 
-// create brand
+// create category
 router.post('/', (req, res) => {
   try {
     const data = req.body;
@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
   }
 })
 
-// patch brands
+// update category
 router.patch('/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -47,7 +47,7 @@ router.patch('/:id', (req, res) => {
   }
 });
 
-// delete brand
+// delete category
 router.delete('/:id', (req, res) => {
   try {
     const { id } = req.params;
