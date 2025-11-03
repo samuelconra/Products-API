@@ -18,12 +18,19 @@ const swaggerDefinition = {
     {
       url: 'http://localhost:3000/',
     }
-  ]
+  ],
+  tags: [
+    { name: 'Products' },
+    { name: 'Categories' },
+    { name: 'Brands' },
+    { name: 'Users' }
+  ],
+  components: {}
 };
 
 const options = {
   swaggerDefinition,
-  apis: [ '../routes/products.routes.js' ]
+  apis: [ './src/routes/*.routes.js', './src/docs/swaggerComponents.js' ]
 }
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -39,11 +46,9 @@ const swaggerUiOptions = {
         color: #000;
       }
     `
-  // customCssUrl: '/static/swagger-theme.css'
 };
 
 function setupSwagger(app) {
-  // app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
   app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec, swaggerUiOptions));
 }
 

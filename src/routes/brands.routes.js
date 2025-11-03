@@ -4,57 +4,57 @@ const router = express.Router();
 const service = require('../services/brands.service')
 
 // get all brands
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   try {
     const response = service.getAll();
     res.status(200).json(response);
   } catch (error) {
-    res.status(404).json({ error: error.message })
+    next(error)
   }
 });
 
 // get brand by id
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
   try {
     const { id } = req.params;
     const response = service.getById(id);
     res.status(200).json(response);
   } catch (error) {
-    res.status(404).json({ error: error.message })
+    next(error)
   }
 });
 
 // create brand
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
   try {
     const data = req.body;
     const response = service.create(data);
-    res.status(200).json(response);
+    res.status(201).json(response);
   } catch (error) {
-    res.status(404).json({ error: error.message })
+    next(error)
   }
 })
 
 // patch brands
-router.patch('/:id', (req, res) => {
+router.patch('/:id', (req, res, next) => {
   try {
     const { id } = req.params;
     const data = req.body;
     const response = service.update(id, data);
     res.status(200).json(response);
   } catch (error) {
-    res.status(404).json({ error: error.message })
+    next(error)
   }
 });
 
 // delete brand
-router.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res, next) => {
   try {
     const { id } = req.params;
     const response = service.delete(id);
     res.status(200).json(response);
   } catch (error) {
-    res.status(404).json({ error: error.message })
+    next(error)
   }
 })
 

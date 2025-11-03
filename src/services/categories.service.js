@@ -1,3 +1,4 @@
+const AppError = require('../utils/AppError');
 const { categories } = require('../data/data.mock');
 const productsService = require ('./products.service');
 
@@ -14,20 +15,19 @@ class CategoriesService {
 
   // get all categories
   getAll() {
-    if (this.categories.length < 1) throw new Error('No Categories Created');
     return this.categories;
   }
 
   // get category by id
   getById(id) {
     const category = this.categories.find(c => c.id == id);
-    if (!category) throw new Error('Category Not Found');
+    if (!category) throw new AppError('Category Not Found', 404);
     return category;
   }
 
   // create category
   create(data) {
-    if (!data.name || !data.description || data.active == null) throw new Error('Missing Fields');
+    if (!data.name || !data.description || data.active == null) throw new AppError('Missing Fields', 400);
 
     const newCategory = {
       id: this.categories.at(-1).id + 1,
@@ -41,14 +41,14 @@ class CategoriesService {
   // update category
   update(id, data) {
     const index = this.categories.findIndex(i => i.id == id);
-    if (index === -1) throw new Error('Category Not Found');
+    if (index === -1) throw new AppError('Category Not Found', 404);
     const category = this.categories[index];
 
-    if (data.active != null && typeof data.active !== 'boolean') throw new Error('Active is not Boolean')
+    if (data.active != null && typeof data.active !== 'boolean') throw new AppError('Active is not Boolean', 400)
 
     const dataKeys = Object.keys(data);
     const notPermitedKeys = dataKeys.filter(d => d != 'name' && d != 'description' && d != 'active')
-    if (notPermitedKeys.length > 0) throw new Error('Not Permited Parameters')
+    if (notPermitedKeys.length > 0) throw new AppError('Not Permited Parameters', 400)
 
     this.categories[index] = {
       ...category,
@@ -61,10 +61,10 @@ class CategoriesService {
   // delete category
   delete(id) {
     const category = this.categories.find(c => c.id == id);
-    if (!category) throw new Error('Category Not Found');
+    if (!category) throw new AppError('Category Not Found', 404);
 
     const productsInCategory = productsService.getAll().find(p => p.categoryId == id);
-    if (productsInCategory) throw new Error('Category is in use')
+    if (productsInCategory) throw new AppError('Category is in use', 409)
 
     this.categories = this.categories.filter(c => c.id != id);
     return category;

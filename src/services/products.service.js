@@ -1,4 +1,5 @@
 const { fakerDE: faker } = require('@faker-js/faker');
+const AppError = require('../utils/AppError');
 const categoriesService = require('./categories.service');
 const brandsService = require('./brands.service');
 const { products } = require('../data/data.mock');
@@ -17,34 +18,33 @@ class ProductsService {
 
   // get all products
   getAll() {
-    if (this.products.length < 1) throw new Error('No Products in Stock');
     return this.products;
   }
 
   // get product by id
   getById(id) {
     const product = this.products.find(p => p.id == id);
-    if (!product) throw new Error('Product not found');
+    if (!product) throw new AppError('Product Not Found', 404);
     return product;
   }
 
   // get products by category id
   getByCategory(categoryId) {
     const category = categoriesService.getAll().find(c => c.id == categoryId);
-    if (!category) throw new Error('Category Not Found');
+    if (!category) throw new AppError('Category Not Found', 404);
 
     const productsInCategory = this.products.filter(p => p.categoryId == category.id);
-    if (productsInCategory.length < 1) throw new Error('No Products in this Category');
+    if (productsInCategory.length < 1) throw new AppError('No Products in this Category', 404);
 
     return productsInCategory;
   }
 
   getByBrand(brandId) {
     const brand = brandsService.getAll().find(b => b.id == brandId);
-    if (!brand) throw new Error('No Brand Found');
+    if (!brand) throw new AppError('No Brand Found', 404);
 
     const productsInBrand = this.products.filter(p => p.brandId == brand.id);
-    if (productsInBrand.length < 1) throw new Error('No Products in this Brand');
+    if (productsInBrand.length < 1) throw new AppError('No Products in this Brand', 404);
 
     return productsInBrand;
   }
@@ -52,13 +52,13 @@ class ProductsService {
   // create new product
   create(data) {
     if (!data.name || !data.description || !data.price || !data.stock || !data.categoryId || !data.brandId)
-      throw new Error('Missing Fields');
+      throw new AppError('Missing Fields', 400);
 
     const category = categoriesService.getAll().find(c => c.id == data.categoryId);
     const brand = brandsService.getAll().find(b => b.id == data.brandId);
 
-    if (!category) throw new Error('Category Not Found');
-    if (!brand) throw new Error('Brand Not Found');
+    if (!category) throw new AppError('Category Not Found', 404);
+    if (!brand) throw new AppError('Brand Not Found', 404);
 
     const newProduct = { id: faker.string.uuid(), ...data }
     this.products.push(newProduct);
@@ -69,16 +69,16 @@ class ProductsService {
   // update category
   update(id, data) {
     const index = this.products.findIndex(i => i.id == id);
-    if (index === -1) throw new Error('Product Not Found');
+    if (index === -1) throw new AppError('Product Not Found', 404);
     const product = this.products[index];
 
     if (data.categoryId) {
       const category = categoriesService.getAll().find(c => c.id == data.categoryId);
-      if (!category) throw new Error('Category Not Found');
+      if (!category) throw new AppError('Category Not Found', 404);
     }
     if (data.brandId) {
       const brand = brandsService.getAll().find(c => c.id == data.brandId);
-      if (!brand) throw new Error('Brand Not Found');
+      if (!brand) throw new AppError('Brand Not Found', 404);
     }
 
     this.products[index] = {
@@ -92,7 +92,7 @@ class ProductsService {
   // delete category
   delete(id) {
     const product = this.products.find(p => p.id == id);
-    if (!product) throw new Error('Product Not Found');
+    if (!product) throw new AppError('Product Not Found', 404);
 
     this.products = this.products.filter(p => p.id != id);
     return product;

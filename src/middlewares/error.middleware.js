@@ -1,13 +1,20 @@
-function logErrors (err, req, res, next) {
-  console.error(err);
-  next(err);
-}
+function errorHandler (err, req, res, next) {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || "error";
 
-function errorHandler (err, res, req, next) {
-  res.status(500).json({
+  if (!err.isOperational) {
+    console.error("ERROR:", err);
+
+    return res.status(500).json({
+      status: "error",
+      message: "Server side error",
+    });
+  }
+
+  res.status(err.statusCode).json({
+    status: err.status,
     message: err.message,
-    stack: err.stack
-  })
+  });
 }
 
-module.exports = { logErrors, errorHandler }
+module.exports = errorHandler;
