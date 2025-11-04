@@ -2,34 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const service = require('../services/products.service')
-/**
- * @swagger
- * /products:
- *  get:
- *    summary: products list
- *    responses:
- *      200:
- *        description: products list
- *        content:
- *          application/json:
- *            schema:
- *              type: array
- *              items:
- *                type: object
- *                properties:
- *                  name:
- *                     type: string
- *                  description:
- *                     type: string
- *                  price:
- *                     type: number
- *                  stock:
- *                     type: string
- *                  categoryId:
- *                     type: number
- *                  brandId:
- *                     type: number
- */
 
 // get all products
 router.get('/', (req, res, next) => {
