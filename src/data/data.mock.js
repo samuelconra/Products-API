@@ -39,6 +39,7 @@ for (let i = 0; i < 20; i++) {
     id: i + 1,
     name: faker.commerce.product(),
     description: faker.commerce.productDescription(),
+    image: faker.image.avatar(),
     price: faker.commerce.price(),
     stock: Math.floor(Math.random() * 101),
     categoryId: Math.floor(Math.random() * (categories_number)) + 1,

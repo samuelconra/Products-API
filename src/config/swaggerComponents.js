@@ -13,11 +13,15 @@
  *         name:
  *           type: string
  *           description: Product name.
- *           example: 'Laptop XYZ'
+ *           example: 'Macbook Pro M4'
  *         description:
  *           type: string
  *           description: Product description.
- *           example: 'A powerful laptop for developers.'
+ *           example: 'The best laptop in market.'
+ *         image:
+ *           type: string
+ *           description: Product image.
+ *           example: 'this in an image'
  *         price:
  *           type: string
  *           description: Product price.
@@ -48,10 +52,13 @@
  *       properties:
  *         name:
  *           type: string
- *           example: 'Laptop XYZ v2'
+ *           example: 'Macbook Pro M5'
  *         description:
  *           type: string
- *           example: 'Updated version of the laptop.'
+ *           example: 'A better laptop.'
+ *         image:
+ *           type: string
+ *           example: 'this in an image'
  *         price:
  *           type: string
  *           example: '1550.00'
@@ -74,14 +81,14 @@
  *           readOnly: true
  *         name:
  *           type: string
- *           example: 'John Doe'
+ *           example: 'Samuel Conde'
  *         username:
  *           type: string
- *           example: 'johndoe'
+ *           example: 'samuelconra'
  *         password:
  *           type: string
  *           description: Password (in a real case, this should not be exposed).
- *           example: 'password123'
+ *           example: 'Password.'
  *       required:
  *         - name
  *         - username
@@ -93,13 +100,13 @@
  *       properties:
  *         name:
  *           type: string
- *           example: 'John A. Doe'
+ *           example: 'Máximo Camacho'
  *         username:
  *           type: string
- *           example: 'johndoe88'
+ *           example: 'zmax'
  *         password:
  *           type: string
- *           example: 'newPassword456'
+ *           example: 'Password.'
  *
  *     Category:
  *       type: object
@@ -142,10 +149,10 @@
  *           readOnly: true
  *         name:
  *           type: string
- *           example: 'ACME Brand'
+ *           example: 'Apple'
  *         description:
  *           type: string
- *           example: 'Manufacturer of high-quality products.'
+ *           example: 'The best brand in the world.'
  *         active:
  *           type: boolean
  *           example: true

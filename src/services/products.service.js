@@ -51,7 +51,7 @@ class ProductsService {
 
   // create new product
   create(data) {
-    if (!data.name || !data.description || !data.price || !data.stock || !data.categoryId || !data.brandId)
+    if (!data.name || !data.description || !data.price || !data.stock || !data.categoryId || !data.brandId || !data.image)
       throw new AppError('Missing Fields', 400);
 
     const category = categoriesService.getAll().find(c => c.id == data.categoryId);
@@ -72,11 +72,11 @@ class ProductsService {
     if (index === -1) throw new AppError('Product Not Found', 404);
     const product = this.products[index];
 
-    if (data.categoryId) {
+    if (data.categoryId != null) {
       const category = categoriesService.getAll().find(c => c.id == data.categoryId);
       if (!category) throw new AppError('Category Not Found', 404);
     }
-    if (data.brandId) {
+    if (data.brandId != null) {
       const brand = brandsService.getAll().find(c => c.id == data.brandId);
       if (!brand) throw new AppError('Brand Not Found', 404);
     }
