@@ -1,6 +1,5 @@
 const AppError = require('../utils/AppError');
 const { brands } = require('../data/data.mock');
-const productsService = require('./products.service');
 
 class BrandsService {
   constructor() {
@@ -62,6 +61,7 @@ class BrandsService {
     const brand = this.brands.find(c => c.id == id);
     if (!brand) throw new AppError('Brand Not Found', 404);
 
+    const productsService = require('./products.service');
     const productsInBrand = productsService.getAll().find(p => p.brandId == id);
     if (productsInBrand) throw new AppError('Brand is in use', 409)
 

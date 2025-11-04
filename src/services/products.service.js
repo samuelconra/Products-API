@@ -60,7 +60,7 @@ class ProductsService {
     if (!category) throw new AppError('Category Not Found', 404);
     if (!brand) throw new AppError('Brand Not Found', 404);
 
-    const newProduct = { id: faker.string.uuid(), ...data }
+    const newProduct = { id: this.products.at(-1).id + 1, ...data }
     this.products.push(newProduct);
 
     return newProduct;

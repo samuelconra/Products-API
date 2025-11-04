@@ -171,7 +171,7 @@
  *           type: string
  *           example: 'Recurso no encontrado'
  *
- *   # ----------------- PARAMETERS (Reutilizables) -----------------
+ *   # PARAMETERS
  *   parameters:
  *     idParam:
  *       in: path
@@ -198,7 +198,7 @@
  *       description: ID numérico de la marca.
  *       example: 1
  *
- *   # ----------------- RESPONSES (Reutilizables) -----------------
+ *   # RESPONSES
  *   responses:
  *     SuccessDelete:
  *       description: Recurso eliminado exitosamente.
@@ -238,7 +238,7 @@
  *             status: 'fail'
  *             message: 'El recurso está en uso y no puede ser eliminado'
  *
- *   # ----------------- REQUEST BODIES (Reutilizables) -----------------
+ *   # REQUEST BODIES
  *   requestBodies:
  *     ProductBody:
  *       required: true
