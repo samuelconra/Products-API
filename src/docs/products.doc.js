@@ -1,14 +1,12 @@
-
-
 /**
  * @swagger
  * /products:
  *   get:
- *     summary: Obtener todos los productos
+ *     summary: Get all products
  *     tags: [Products]
  *     responses:
  *       '200':
- *         description: Lista de todos los productos.
+ *         description: A list of all products.
  *         content:
  *           application/json:
  *             schema:
@@ -17,13 +15,13 @@
  *                 $ref: '#/components/schemas/Product'
  *
  *   post:
- *     summary: Crear un nuevo producto
+ *     summary: Create a new product
  *     tags: [Products]
  *     requestBody:
  *       $ref: '#/components/requestBodies/ProductBody'
  *     responses:
  *       '201':
- *         description: Producto creado exitosamente.
+ *         description: Product created successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -31,27 +29,28 @@
  *       '400':
  *         $ref: '#/components/responses/BadRequest'
  *       '404':
- *         description: Categoría o Marca no encontrada.
+ *         description: Category or Brand not found.
  *         $ref: '#/components/responses/NotFound'
  *
  * /products/{id}:
  *   get:
- *     summary: Obtener un producto por ID
+ *     summary: Get product by ID
  *     tags: [Products]
  *     parameters:
  *       - $ref: '#/components/parameters/idParam'
  *     responses:
  *       '200':
- *         description: Producto encontrado.
+ *         description: Product found.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Product'
  *       '404':
+ *         description: Product not found.
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Actualizar un producto parcialmente
+ *     summary: Update a product partially
  *     tags: [Products]
  *     parameters:
  *       - $ref: '#/components/parameters/idParam'
@@ -59,34 +58,37 @@
  *       $ref: '#/components/requestBodies/ProductUpdateBody'
  *     responses:
  *       '200':
- *         description: Producto actualizado.
+ *         description: Product updated.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Product'
  *       '404':
+ *         description: Product or related Category/Brand not found.
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Eliminar un producto
+ *     summary: Delete a product
  *     tags: [Products]
  *     parameters:
  *       - $ref: '#/components/parameters/idParam'
  *     responses:
  *       '200':
+ *         description: Product deleted.
  *         $ref: '#/components/responses/SuccessDelete'
  *       '404':
+ *         description: Product not found.
  *         $ref: '#/components/responses/NotFound'
  *
  * /products/category/{categoryId}:
  *   get:
- *     summary: Obtener productos por ID de categoría
+ *     summary: Get products by category ID
  *     tags: [Products]
  *     parameters:
  *       - $ref: '#/components/parameters/categoryIdParam'
  *     responses:
  *       '200':
- *         description: Lista de productos en la categoría.
+ *         description: List of products in the category.
  *         content:
  *           application/json:
  *             schema:
@@ -94,18 +96,18 @@
  *               items:
  *                 $ref: '#/components/schemas/Product'
  *       '404':
- *         description: Categoría no encontrada o sin productos.
+ *         description: Category not found or no products in it.
  *         $ref: '#/components/responses/NotFound'
  *
  * /products/brand/{brandId}:
  *   get:
- *     summary: Obtener productos por ID de marca
+ *     summary: Get products by brand ID
  *     tags: [Products]
  *     parameters:
  *       - $ref: '#/components/parameters/brandIdParam'
  *     responses:
  *       '200':
- *         description: Lista de productos de la marca.
+ *         description: List of products for the brand.
  *         content:
  *           application/json:
  *             schema:
@@ -113,7 +115,6 @@
  *               items:
  *                 $ref: '#/components/schemas/Product'
  *       '404':
- *         description: Marca no encontrada o sin productos.
+ *         description: Brand not found or no products for it.
  *         $ref: '#/components/responses/NotFound'
- *
  */
