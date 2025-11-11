@@ -1,4 +1,4 @@
-function errorHandler (err, req, res, next) {
+export function errorHandler (err, req, res, next) {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
@@ -17,4 +17,10 @@ function errorHandler (err, req, res, next) {
   });
 }
 
-export default errorHandler;
+export function handleAsync (fn) {
+  return (req, res, next) => {
+    fn(req, res, next).catch(next);
+  };
+}
+
+export default { errorHandler, handleAsync };

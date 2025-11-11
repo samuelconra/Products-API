@@ -1,61 +1,22 @@
 import express from 'express';
 const router = express.Router();
 
-import service from '../services/categories.service.js';
+import controller from '../controllers/categories.controller.js';
+import { handleAsync } from '../middlewares/error.middleware.js';
 
 // get all categories
-router.get('/', (req, res, next) => {
-  try {
-    const response = service.getAll();
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.get('/', handleAsync(controller.getCategories));
 
 // get category by id
-router.get('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const response = service.getById(id);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.get('/:id', handleAsync(controller.getCategoryById));
 
 // create category
-router.post('/', (req, res, next) => {
-  try {
-    const data = req.body;
-    const response = service.create(data);
-    res.status(201).json(response);
-  } catch (error) {
-    next(error)
-  }
-})
+router.post('/', handleAsync(controller.createCategory));
 
 // update category
-router.patch('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const data = req.body;
-    const response = service.update(id, data);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.patch('/:id', handleAsync(controller.updateCategory));
 
 // delete category
-router.delete('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const response = service.delete(id);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-})
+router.delete('/:id', handleAsync(controller.deleteCategory));
 
 export default router;

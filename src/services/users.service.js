@@ -1,64 +1,43 @@
 import AppError from '../utils/AppError.js';
-import { users } from '../data/data.mock.js';
+import UserModel from '../models/user.model.js';
 
 class UsersService {
-  constructor() {
-    this.users = [];
-    this.generate();
-  }
-
-  // generate data
-  generate() {
-    this.users = users;
-  }
-
   // get all users
-  getAll() {
-    return this.users;
+  static async getAll() {
+    const users = await UserModel.find();
+    return users;
   }
 
   // get product by id
-  getById(id) {
-    const user = this.users.find(u => u.id == id);
+  static async getById(id) {
+    const user = await UserModel.findById(id);
     if (!user) throw new AppError('User not found', 404);
     return user;
   }
 
   // create user
-  create(data) {
-    if (!data.name || !data.username || !data.password) throw new AppError('Missing Fields', 400);
-
-    const newUser = {
-      id: this.users.at(-1).id + 1,
-      ...data
+  static async create(data) {
+    try {
+      const newUser = await UserModel.create(data);
+      return newUser;
+    } catch (error) {
+      throw new AppError(error.message, 400);
     }
-    this.users.push(newUser);
-
-    return newUser;
   }
 
   // update user
-  update(id, data) {
-    const index = this.users.findIndex(i => i.id == id);
-    if (index === -1) throw new AppError('User Not Found', 404);
-    const user = this.users[index];
-
-    this.users[index] = {
-      ...user,
-      ...data
-    }
-
-    return this.users[index];
+  static async update(id, data) {
+    const user = await UserModel.findByIdAndUpdate(id, data, { new: true });
+    if (!user) throw new AppError('User Not Found', 404);
+    return user;
   }
 
   // delete user
-  delete(id) {
-    const user = this.users.find(u => u.id == id);
+  static async delete(id) {
+    const user = await UserModel.findByIdAndDelete(id);
     if (!user) throw new AppError('User Not Found', 404);
-
-    this.users = this.users.filter(c => c.id != id);
     return user;
   }
 }
 
-export default new UsersService();
+export default UsersService;

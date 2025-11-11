@@ -1,61 +1,22 @@
 import express from 'express';
 const router = express.Router();
 
-import service from '../services/users.service.js'
+import controller from '../controllers/users.controller.js';
+import { handleAsync } from '../middlewares/error.middleware.js';
 
 // get all users
-router.get('/', (req, res, next) => {
-  try {
-    const response = service.getAll();
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.get('/', handleAsync(controller.getUsers));
 
 // get user by id
-router.get('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const response = service.getById(id);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.get('/:id', handleAsync(controller.getUserById));
 
 // create user
-router.post('/', (req, res, next) => {
-  try {
-    const data = req.body;
-    const response = service.create(data);
-    res.status(201).json(response);
-  } catch (error) {
-    next(error)
-  }
-})
+router.post('/', handleAsync(controller.createUser));
 
 // update user
-router.patch('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const data = req.body;
-    const response = service.update(id, data);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.patch('/:id', handleAsync(controller.updateUser));
 
 // delete user
-router.delete('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const response = service.delete(id);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-})
+router.delete('/:id', handleAsync(controller.deleteUser));
 
 export default router;

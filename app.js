@@ -1,8 +1,10 @@
+import 'dotenv/config';
+
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import routerAPI from './src/routes/routes.js';
-import errorHandler from './src/middlewares/error.middleware.js';
+import { errorHandler } from './src/middlewares/error.middleware.js';
 import setupSwagger from './src/config/swagger.js';
 
 const app = express();
@@ -14,7 +16,7 @@ routerAPI(app);
 setupSwagger(app);
 app.use(errorHandler);
 
-const cluster = "mongodb+srv://samuelconra:Password.@scr-cluster.rph1o8c.mongodb.net/?retryWrites=true&w=majority&appName=scr-cluster"
+const cluster = process.env.MONGO_URI;
 mongoose.connect(cluster)
   .then(() => console.log("Successfull Connection"))
   .catch((err) => console.log("Connection Error", err))

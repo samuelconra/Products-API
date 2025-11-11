@@ -1,61 +1,22 @@
 import express from 'express';
 const router = express.Router();
 
-import service from '../services/brands.service.js';
+import controller from '../controllers/brands.controller.js';
+import { handleAsync } from '../middlewares/error.middleware.js';
 
 // get all brands
-router.get('/', (req, res, next) => {
-  try {
-    const response = service.getAll();
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.get('/', handleAsync(controller.getBrands));
 
 // get brand by id
-router.get('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const response = service.getById(id);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.get('/:id', handleAsync(controller.getBrandById));
 
 // create brand
-router.post('/', (req, res, next) => {
-  try {
-    const data = req.body;
-    const response = service.create(data);
-    res.status(201).json(response);
-  } catch (error) {
-    next(error)
-  }
-})
+router.post('/', handleAsync(controller.createBrand));
 
 // patch brands
-router.patch('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const data = req.body;
-    const response = service.update(id, data);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.patch('/:id', handleAsync(controller.updateBrand));
 
 // delete brand
-router.delete('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const response = service.delete(id);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-})
+router.delete('/:id', handleAsync(controller.deleteBrand));
 
 export default router;
