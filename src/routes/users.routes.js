@@ -2,11 +2,11 @@ import express from 'express';
 const router = express.Router();
 
 import service from '../services/users.service.js'
-
 // get all users
 router.get('/', (req, res, next) => {
   try {
     const response = service.getAll();
+    console.log(response)
     res.status(200).json(response);
   } catch (error) {
     next(error)
