@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const service = require('../services/categories.service')
+import service from '../services/categories.service.js';
 
 // get all categories
 router.get('/', (req, res, next) => {
@@ -58,4 +58,4 @@ router.delete('/:id', (req, res, next) => {
   }
 })
 
-module.exports = router;
+export default router;

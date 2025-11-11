@@ -1,5 +1,5 @@
-const AppError = require('../utils/AppError');
-const { users } = require('../data/data.mock');
+import AppError from '../utils/AppError.js';
+import { users } from '../data/data.mock.js';
 
 class UsersService {
   constructor() {
@@ -61,4 +61,4 @@ class UsersService {
   }
 }
 
-module.exports = new UsersService();
+export default new UsersService();

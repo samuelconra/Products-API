@@ -1,7 +1,8 @@
-const { fakerDE: faker } = require('@faker-js/faker');
+// const { fakerDE: faker } = require('@faker-js/faker');
+import { faker } from '@faker-js/faker';
 
 // users creation
-const users = [];
+export const users = [];
 
 for (let i = 0; i < 10; i++) {
   users.push({
@@ -13,9 +14,9 @@ for (let i = 0; i < 10; i++) {
 }
 
 // categories, brands & products creation
-const categories = [];
-const brands = [];
-const products = [];
+export const categories = [];
+export const brands = [];
+export const products = [];
 
 for (let i = 0; i < 20; i++) {
   const categories_number = 5;
@@ -54,4 +55,4 @@ const entities = {
   products
 }
 
-module.exports = entities;
+export default entities;

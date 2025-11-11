@@ -1,5 +1,6 @@
-const AppError = require('../utils/AppError');
-const { categories } = require('../data/data.mock');
+import AppError from '../utils/AppError.js';
+import { categories } from '../data/data.mock.js';
+import productsService from './products.service.js';
 
 class CategoriesService {
   constructor() {
@@ -62,7 +63,6 @@ class CategoriesService {
     const category = this.categories.find(c => c.id == id);
     if (!category) throw new AppError('Category Not Found', 404);
 
-    const productsService = require ('./products.service');
     const productsInCategory = productsService.getAll().find(p => p.categoryId == id);
     if (productsInCategory) throw new AppError('Category is in use', 409)
 
@@ -71,4 +71,4 @@ class CategoriesService {
   }
 }
 
-module.exports = new CategoriesService();
+export default new CategoriesService();

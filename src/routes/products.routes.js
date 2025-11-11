@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const service = require('../services/products.service')
+import service from '../services/products.service.js';
 
 // get all products
 router.get('/', (req, res, next) => {
@@ -80,4 +80,4 @@ router.delete('/:id', (req, res, next) => {
   }
 })
 
-module.exports = router;
+export default router;

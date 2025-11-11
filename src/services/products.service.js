@@ -1,8 +1,8 @@
-const { fakerDE: faker } = require('@faker-js/faker');
-const AppError = require('../utils/AppError');
-const categoriesService = require('./categories.service');
-const brandsService = require('./brands.service');
-const { products } = require('../data/data.mock');
+import AppError from '../utils/AppError.js';
+import categoriesService from './categories.service.js';
+import brandsService from './brands.service.js';
+import { products } from '../data/data.mock.js';
+
 
 // PRODUCTS SERVICE CLASS
 class ProductsService {
@@ -99,4 +99,4 @@ class ProductsService {
   }
 }
 
-module.exports = new ProductsService();
+export default new ProductsService();
