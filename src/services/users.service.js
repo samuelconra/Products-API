@@ -1,16 +1,16 @@
 import AppError from '../utils/AppError.js';
-import User from '../models/user.model.js';
+import UserModel from '../models/user.model.js';
 
 class UsersService {
   // get all users
   static async getAll() {
-    const users = await User.find();
+    const users = await UserModel.find();
     return users;
   }
 
   // get product by id
   static async getById(id) {
-    const user = await User.findById(id);
+    const user = await UserModel.findById(id);
     if (!user) throw new AppError('User not found', 404);
     return user;
   }
@@ -18,7 +18,7 @@ class UsersService {
   // create user
   static async create(data) {
     try {
-      const newUser = await User.create(data);
+      const newUser = await UserModel.create(data);
       return newUser;
     } catch (error) {
       throw new AppError(error.message, 400);
@@ -27,14 +27,14 @@ class UsersService {
 
   // update user
   static async update(id, data) {
-    const user = await User.findByIdAndUpdate(id, data, { new: true });
+    const user = await UserModel.findByIdAndUpdate(id, data, { new: true });
     if (!user) throw new AppError('User Not Found', 404);
     return user;
   }
 
   // delete user
   static async delete(id) {
-    const user = await User.findByIdAndDelete(id);
+    const user = await UserModel.findByIdAndDelete(id);
     if (!user) throw new AppError('User Not Found', 404);
     return user;
   }

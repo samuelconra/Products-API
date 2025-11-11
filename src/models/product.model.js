@@ -4,6 +4,7 @@ const ProductSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true
   },
   description: {
     type: String,
@@ -12,16 +13,22 @@ const ProductSchema = mongoose.Schema({
     type: String,
   },
   price: {
-    type: String,
+    type: Number,
+    required: true,
   },
   stock: {
-    type: Int8Array,
+    type: Number,
+    required: true,
   },
   categoryId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
   },
   brandId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Brand",
+    required: true,
   }
 });
 

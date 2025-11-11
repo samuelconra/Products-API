@@ -1,74 +1,56 @@
 import AppError from '../utils/AppError.js';
-import { categories } from '../data/data.mock.js';
-import productsService from './products.service.js';
+import CategoryModel from '../models/category.model.js';
+import ProductModel from '../models/product.model.js';
 
 class CategoriesService {
-  constructor() {
-    this.categories = [];
-    this.generate();
-  }
-
-  // generate categories data
-  generate() {
-    this.categories = categories;
-  }
-
   // get all categories
-  getAll() {
-    return this.categories;
+  static async getAll() {
+    const categories = await CategoryModel.find();
+    return categories;
   }
 
   // get category by id
-  getById(id) {
-    const category = this.categories.find(c => c.id == id);
+  static async getById(id) {
+    const category = await CategoryModel.findById(id);
     if (!category) throw new AppError('Category Not Found', 404);
     return category;
   }
 
   // create category
-  create(data) {
-    if (!data.name || !data.description || data.active == null) throw new AppError('Missing Fields', 400);
-
-    const newCategory = {
-      id: this.categories.at(-1).id + 1,
-      ...data
+  static async create(data) {
+    try {
+      const newCategory = await CategoryModel.create(data);
+      return newCategory;
+    } catch (error) {
+      throw new AppError(error.message, 400);
     }
-    this.categories.push(newCategory);
-
-    return newCategory;
   }
 
   // update category
-  update(id, data) {
-    const index = this.categories.findIndex(i => i.id == id);
-    if (index === -1) throw new AppError('Category Not Found', 404);
-    const category = this.categories[index];
-
-    if (data.active != null && typeof data.active !== 'boolean') throw new AppError('Active is not Boolean', 400)
-
-    const dataKeys = Object.keys(data);
-    const notPermitedKeys = dataKeys.filter(d => d != 'name' && d != 'description' && d != 'active')
-    if (notPermitedKeys.length > 0) throw new AppError('Not Permited Parameters', 400)
-
-    this.categories[index] = {
-      ...category,
-      ...data
-    }
-
-    return this.categories[index];
+  static async update(id, data) {
+    const category = await CategoryModel.findByIdAndUpdate(id, data, { new: true });
+    if (!category) throw new AppError('Category Not Found', 404);
+    return category;
   }
 
   // delete category
-  delete(id) {
-    const category = this.categories.find(c => c.id == id);
+  static async delete(id) {
+    const category = await CategoryModel.findById(id);
     if (!category) throw new AppError('Category Not Found', 404);
 
-    const productsInCategory = productsService.getAll().find(p => p.categoryId == id);
-    if (productsInCategory) throw new AppError('Category is in use', 409)
+    const productInCategory = await ProductModel.findOne({ categoryId: id });
+    if (productInCategory) throw new AppError('Category is in use', 409);
 
-    this.categories = this.categories.filter(c => c.id != id);
+    await CategoryModel.findByIdAndDelete(id);
+    return category;
+  }
+
+  // get by name
+  static async getByName(name) {
+    const category = await CategoryModel.findOne({ name: name });
+    if (!category) throw new AppError('Category not found', 404);
     return category;
   }
 }
 
-export default new CategoriesService();
+export default CategoriesService;

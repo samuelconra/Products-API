@@ -1,83 +1,28 @@
 import express from 'express';
 const router = express.Router();
 
-import service from '../services/products.service.js';
+import { handleAsync } from '../middlewares/error.middleware.js';
+import controller from '../controllers/products.controller.js';
 
 // get all products
-router.get('/', (req, res, next) => {
-  try {
-    const response = service.getAll();
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.get('/', handleAsync(controller.getProducts));
 
 // get product by id
-router.get('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const response = service.getById(id);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.get('/:id', handleAsync(controller.getProductById));
 
 // get products by category
-router.get('/category/:categoryId', (req, res, next) => {
-  try {
-    const { categoryId } = req.params;
-    const response = service.getByCategory(categoryId);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-})
+router.get('/category/:categoryId', handleAsync(controller.getProductsByCategory));
 
 // get products by brand
-router.get('/brand/:brandId', (req, res, next) => {
-  try {
-    const { brandId } = req.params;
-    const response = service.getByBrand(brandId);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-})
+router.get('/brand/:brandId', handleAsync(controller.getProductsByBrand));
 
 // create product
-router.post('/', (req, res, next) => {
-  try {
-    const data = req.body;
-    const response = service.create(data);
-    res.status(201).json(response);
-  } catch (error) {
-    next(error)
-  }
-});
+router.post('/', handleAsync(controller.createProduct));
 
 // update product
-router.patch('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const data = req.body;
-    const response = service.update(id, data)
-    res.status(200).json(response)
-  } catch (error) {
-    next(error)
-  }
-});
+router.patch('/:id', handleAsync(controller.updateProduct));
 
 // delete product
-router.delete('/:id', (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const response = service.delete(id);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error)
-  }
-})
+router.delete('/:id', handleAsync(controller.deleteProduct));
 
 export default router;

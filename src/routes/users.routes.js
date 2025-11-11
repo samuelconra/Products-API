@@ -11,12 +11,12 @@ router.get('/', handleAsync(controller.getUsers));
 router.get('/:id', handleAsync(controller.getUserById));
 
 // create user
-router.post('/', handleAsync(controller.createUser))
+router.post('/', handleAsync(controller.createUser));
 
 // update user
 router.patch('/:id', handleAsync(controller.updateUser));
 
 // delete user
-router.delete('/:id', handleAsync(controller.deleteUser))
+router.delete('/:id', handleAsync(controller.deleteUser));
 
 export default router;

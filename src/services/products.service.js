@@ -1,102 +1,94 @@
 import AppError from '../utils/AppError.js';
-import categoriesService from './categories.service.js';
-import brandsService from './brands.service.js';
-import { products } from '../data/data.mock.js';
+import ProductModel from '../models/product.model.js';
+import CategoriesService from './categories.service.js';
+import BrandsService from './brands.service.js';
 
-
-// PRODUCTS SERVICE CLASS
 class ProductsService {
-  constructor() {
-      this.products = [];
-      this.generate();
-  }
-
-  // generate products data
-  generate() {
-    this.products = products;
-  }
-
   // get all products
-  getAll() {
-    return this.products;
+  static async getAll() {
+    const products = await ProductModel.find().populate('categoryId').populate('brandId');
+    return products;
   }
 
   // get product by id
-  getById(id) {
-    const product = this.products.find(p => p.id == id);
+  static async getById(id) {
+    const product = await ProductModel.findById(id).populate('categoryId').populate('brandId');
     if (!product) throw new AppError('Product Not Found', 404);
     return product;
   }
 
   // get products by category id
-  getByCategory(categoryId) {
-    const category = categoriesService.getAll().find(c => c.id == categoryId);
-    if (!category) throw new AppError('Category Not Found', 404);
+  static async getByCategory(categoryId) {
+    await CategoriesService.getById(categoryId);
 
-    const productsInCategory = this.products.filter(p => p.categoryId == category.id);
-    if (productsInCategory.length < 1) throw new AppError('No Products in this Category', 404);
+    const products = await ProductModel.find({ categoryId: categoryId }).populate('categoryId').populate('brandId');
+    if (products.length < 1) throw new AppError('No Products in this Category', 404);
 
-    return productsInCategory;
+    return products;
   }
 
-  getByBrand(brandId) {
-    const brand = brandsService.getAll().find(b => b.id == brandId);
-    if (!brand) throw new AppError('No Brand Found', 404);
+  static async getByBrand(brandId) {
+    await BrandsService.getById(brandId);
 
-    const productsInBrand = this.products.filter(p => p.brandId == brand.id);
-    if (productsInBrand.length < 1) throw new AppError('No Products in this Brand', 404);
+    const products = await ProductModel.find({ brandId: brandId }).populate('categoryId').populate('brandId');
+    if (products.length < 1) throw new AppError('No Products in this Brand', 404);
 
-    return productsInBrand;
+    return products;
   }
 
   // create new product
-  create(data) {
-    if (!data.name || !data.description || !data.price || !data.stock || !data.categoryId || !data.brandId || !data.image)
-      throw new AppError('Missing Fields', 400);
+  static async create(data) {
+    if (!data.categoryName || !data.brandName) {
+      throw new AppError('Missing category or brand', 400);
+    }
 
-    const category = categoriesService.getAll().find(c => c.id == data.categoryId);
-    const brand = brandsService.getAll().find(b => b.id == data.brandId);
+    const category = await CategoriesService.getByName(data.categoryName);
+    const brand = await BrandsService.getByName(data.brandName);
 
-    if (!category) throw new AppError('Category Not Found', 404);
-    if (!brand) throw new AppError('Brand Not Found', 404);
+    const newProductData = {
+      ...data,
+      categoryId: category._id,
+      brandId: brand._id,
+    };
 
-    const newProduct = { id: this.products.at(-1).id + 1, ...data }
-    this.products.push(newProduct);
+    delete newProductData.categoryName;
+    delete newProductData.brandName;
 
-    return newProduct;
+    try {
+      const newProduct = await ProductModel.create(newProductData);
+      return newProduct;
+    } catch (error) {
+      throw new AppError(error.message, 400);
+    }
   }
 
   // update category
-  update(id, data) {
-    const index = this.products.findIndex(i => i.id == id);
-    if (index === -1) throw new AppError('Product Not Found', 404);
-    const product = this.products[index];
+  static async update(id, data) {
+    const updateData = { ...data };
 
-    if (data.categoryId != null) {
-      const category = categoriesService.getAll().find(c => c.id == data.categoryId);
-      if (!category) throw new AppError('Category Not Found', 404);
-    }
-    if (data.brandId != null) {
-      const brand = brandsService.getAll().find(c => c.id == data.brandId);
-      if (!brand) throw new AppError('Brand Not Found', 404);
+    if (updateData.categoryName) {
+      const category = await CategoriesService.getByName(updateData.categoryName);
+      updateData.categoryId = category._id;
+      delete updateData.categoryName;
     }
 
-    this.products[index] = {
-      ...product,
-      ...data
+    if (updateData.brandName) {
+      const brand = await BrandsService.getByName(updateData.brandName);
+      updateData.brandId = brand._id;
+      delete updateData.brandName;
     }
 
-    return this.products[index];
+    const product = await ProductModel.findByIdAndUpdate(id, updateData, { new: true });
+    if (!product) throw new AppError('Product Not Found', 404);
+    return product;
   }
 
   // delete category
-  delete(id) {
-    const product = this.products.find(p => p.id == id);
+  static async delete(id) {
+    const product = await ProductModel.findByIdAndDelete(id);
     if (!product) throw new AppError('Product Not Found', 404);
-
-    this.products = this.products.filter(p => p.id != id);
     return product;
   }
 }
 
-export default new ProductsService();
+export default ProductsService;
