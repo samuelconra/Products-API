@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import routerAPI from './src/routes/routes.js';
-import errorHandler from './src/middlewares/error.middleware.js';
+import { errorHandler } from './src/middlewares/error.middleware.js';
 import setupSwagger from './src/config/swagger.js';
 
 const app = express();

@@ -1,23 +1,11 @@
 import AppError from '../utils/AppError.js';
 import User from '../models/user.model.js';
 
-
-// get all
-// router.get("/", async (req, res) => {
-//     Book.find()
-//         .then((books) => res.json(books))
-//         .catch((err) => res.status(400).json({ error: err.message }));
-// });
-
-
 class UsersService {
   // get all users
   static async getAll() {
-    User.find()
-      .then((users) => { return users })
-      .catch((err) => { throw new AppError(err.message, 400)});
-    // const users = await User.find();
-    // return users;
+    const users = await User.find();
+    return users;
   }
 
   // get product by id
